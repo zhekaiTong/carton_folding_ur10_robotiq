@@ -1,0 +1,48 @@
+1. ros subscriber cannot subscribe two topics. If your subscribed topics have messages with timestamp headers, you can use message_filters.  http://wiki.ros.org/message_filters
+   However, you cannot use message_filters to subscribe msg without timestamp header. 
+   See why cannot use message_filters:
+   Reference: https://answers.ros.org/question/219332/how-can-i-subscribers-multiple-topics-to-get-data-at-the-same-time-python/
+           https://answers.ros.org/question/196065/subscribe-to-multiple-topics-and-callback-function/
+           https://answers.ros.org/question/186281/problem-using-callback-with-multiple-arguments-via-approximatetime-synchronizer/
+
+
+   Therefore, for those std_msgs, we need to create manually a new message with header.
+   Steps for creating a new message:
+   1) Create msg file in your package 
+      Use fomart as: Message_Type Name
+      http://wiki.ros.org/ROS/Tutorials/CreatingMsgAndSrv
+   2) Write a node which can both subscribe and publish. It subscribes the topics with no-header message, and publish to a new topic with new-header message.
+      a. Import: from YOUR_PACKAGE.msg import MESSAGE_FILE_NAME
+         Ref: see how to import your customed message: http://wiki.ros.org/ROS/Tutorials/CustomMessagePublisherSubscriber%28python%29
+      b. Subscriber function: Declare the node and subscriber
+         Ref: how to write a subscriber: http://wiki.ros.org/ROS/Tutorials/WritingPublisherSubscriber%28python%29
+      c. Callback funtion: Declare the publisher
+                           Instantialize your message: msg = YOUR_MESSAGE_NAME()
+			   Copy the old value from subscribed topic or give new value to your new message.
+			   Ref: see how to give value: https://answers.ros.org/question/31779/how-to-use-a-message-that-i-made/
+                                                       https://answers.ros.org/question/60209/what-is-the-proper-way-to-create-a-header-with-python/
+
+2. when running S-Model Driver Node, an error like [Errno 13] Permission denied: '/home/.ros/rosdep/sources.cache/index' occurs
+Solution: sudo rosdep fix-permissions
+
+3. How to run apriltag package.
+Solution: 1. Modify example.launch
+             1) remap the topic correctly
+                <remap from="image_rect" to="/usb_cam/image_rect" />
+                <remap from="camera_info" to="/usb_cam/camera_info"/>
+	     2) Give unique frame id to each tag id
+                [{id: 0, size: 0.07211, frame_id: april_tag_frame_id_0},
+	         {id: 1, size: 0.163513, frame_id: april_tag_frame_id_1},
+	         {id: 2, size: 0.163513, frame_id: april_tag_frame_id_2},
+	         {id: 3, size: 0.163513, frame_id: april_tag_frame_id_3},
+	         {id: 4, size: 0.163513, frame_id: april_tag_frame_id_4},
+	         {id: 5, size: 0.163513, frame_id: april_tag_frame_id_5}]
+	     Reference: https://github.com/personalrobotics/apriltags/issues/23 (For explanation)
+			https://github.com/vkee/slam/blob/master/launch/run_apriltag_detection.launch (For launch file example)
+	  2. Open the following nodes by order:
+	     roslaunch usb_cam usb_cam-test.launch
+	     ROS_NAMESPACE=usb_cam rosrun image_proc image_proc
+	     roslaunch apriltags_ros apriltags_ros.launch
+	     ## Now launch only apriltags_ros.launch should be enough because usb_cam and image_proc nodes are integrated into apriltags launch.
+         3. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!important
+            prerequisite: install ros_comm package using sudo apt-get(no catkin) (Chunli's work)

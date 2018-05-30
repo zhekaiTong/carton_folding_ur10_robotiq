@@ -1,0 +1,11 @@
+This file is an instrution for create a package for planning ur10 in moveit.
+
+1. create a package
+cd ~/catkin_ws/src
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+cd ~/catkin_ws
+catkin_make
+. ~/catkin_ws/devel/setup.bash
+
+2. Modify the CMakeList file
+ i) add find_package(Eigen REQUIRED)

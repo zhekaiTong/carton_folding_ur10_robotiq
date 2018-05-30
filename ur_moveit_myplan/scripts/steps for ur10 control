@@ -1,0 +1,18 @@
+Steps for UR10 Control:
+
+1. Connect your laptop with UR10 via Ethernet cable.
+   Set the IP address to be 192.168.1.10
+
+2. Run the launch file to bringup a real robot.
+   roslaunch ur_modern_driver ur5_bringup.launch robot_ip:=IP_OF_THE_ROBOT [reverse_port:=REVERSE_PORT]
+
+3. Upload UR10 model in Moviet and Open the Rviz.
+   roslaunch ur5_moveit_config ur5_moveit_planning_execution.launch limited:=true
+   roslaunch ur5_moveit_config moveit_rviz.launch config:=true
+
+4. *Manipulate UR10 with Python Move_Group_Interface
+   rosrun <your package name> ur10_myplan_demo.py
+   Remenber to make python code executable before you run it.
+   chmod +x ur10_myplan_demo.py
+
+* Try to build a package before you can run the python code.

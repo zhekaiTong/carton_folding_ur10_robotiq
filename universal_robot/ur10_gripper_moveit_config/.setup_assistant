@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ur_description
+    relative_path: urdf/ur10_gripper_s_limited.urdf
+  SRDF:
+    relative_path: config/ur10_gripper_s_limited_xacro.srdf
+  CONFIG:
+    author_name: Syed Abdullah, Zhekai Tong
+    author_email: zhekai.tong@hotmail.com
+    generated_timestamp: 1512390011

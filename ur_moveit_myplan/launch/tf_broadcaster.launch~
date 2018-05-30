@@ -1,0 +1,10 @@
+<!-- -*- xml -*- -->
+
+<launch>
+
+    <node pkg="ur_moveit_myplan" type="base_cam_transform.py"
+          name="base_cam_transform" /> <!-- parameter 'name' is the one declared in base_cam_transform.py with init_node -->
+
+   <node pkg="ur_moveit_myplan" type="carton_folding.py" name="carton_folding" respawn="false" output="screen"/>
+
+</launch>

@@ -1,0 +1,5 @@
+1. ros subscriber cannot subscribe two topics. If your subscribed topics have messages with timestamp headers, you can use message_filters.  http://wiki.ros.org/message_filters
+   However, you cannot use message_filters to subscribe msg without timestamp header.
+Reference: https://answers.ros.org/question/219332/how-can-i-subscribers-multiple-topics-to-get-data-at-the-same-time-python/
+           https://answers.ros.org/question/196065/subscribe-to-multiple-topics-and-callback-function/
+           https://answers.ros.org/question/186281/problem-using-callback-with-multiple-arguments-via-approximatetime-synchronizer/
